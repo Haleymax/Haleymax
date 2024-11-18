@@ -1,34 +1,19 @@
-# GitHub Action for generating a contribution graph with a snake eating your contributions.
-name: Generate Snake
+- uses: Platane/snk@v3
+  with:
+    # github user name to read the contribution graph from (**required**)
+    # using action context var `github.repository_owner` or specified user
+    github_user_name: ${{ github.repository_owner }}
 
-on:
-  schedule:
-    - cron: "0 0 * * *"
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3  # 这里更新到较新的 v3 版本，你也可以按实际需求保留原来的 v2.3.4
-        with:
-          fetch-depth: 0  # 确保能获取完整历史记录，有些操作可能需要完整历史，比如生成完整的贡献图
-
-      - name: Generate Snake
-        uses: Platane/snk@master  # 建议后续替换为具体稳定版本号
-        id: snake-gif
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          gif_out_path:./assets/github-contribution-grid-snake.gif
-          svg_out_path:./assets/github-contribution-grid-snake.svg
-
-      - name: Push to GitHub
-        uses: EndBug/add-and-commit@v7.2.1
-        with:
-          branch: main
-          message: 'Generate Contribution Snake'
-        env:
-          # 使用仓库设置的机密令牌作为认证来解决权限问题，确保仓库中已正确配置名为 GITHUB_TOKEN 的机密
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+    # list of files to generate.
+    # one file per line. Each output can be customized with options as query string.
+    #
+    #  supported options:
+    #  - palette:     A preset of color, one of [github, github-dark, github-light]
+    #  - color_snake: Color of the snake
+    #  - color_dots:  Coma separated list of dots color.
+    #                 The first one is 0 contribution, then it goes from the low contribution to the highest.
+    #                 Exactly 5 colors are expected.
+    outputs: |
+      dist/github-snake.svg
+      dist/github-snake-dark.svg?palette=github-dark
+      dist/ocean.gif?color_snake=orange&color_dots=#bfd6f6,#8dbdff,#64a1f4,#4b91f1,#3c7dd9
