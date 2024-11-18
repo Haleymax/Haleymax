@@ -1,5 +1,4 @@
 # GitHub Action for generating a contribution graph with a snake eating your contributions.
-
 name: Generate Snake
 
 on:
@@ -13,18 +12,23 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v3  # 这里更新到较新的 v3 版本，你也可以按实际需求保留原来的 v2.3.4
+        with:
+          fetch-depth: 0  # 确保能获取完整历史记录，有些操作可能需要完整历史，比如生成完整的贡献图
 
       - name: Generate Snake
-        uses: Platane/snk@master
+        uses: Platane/snk@master  # 建议后续替换为具体稳定版本号
         id: snake-gif
         with:
           github_user_name: ${{ github.repository_owner }}
-          gif_out_path: ./assets/github-contribution-grid-snake.gif
-          svg_out_path: ./assets/github-contribution-grid-snake.svg
+          gif_out_path:./assets/github-contribution-grid-snake.gif
+          svg_out_path:./assets/github-contribution-grid-snake.svg
 
       - name: Push to GitHub
         uses: EndBug/add-and-commit@v7.2.1
         with:
           branch: main
           message: 'Generate Contribution Snake'
+        env:
+          # 使用仓库设置的机密令牌作为认证来解决权限问题，确保仓库中已正确配置名为 GITHUB_TOKEN 的机密
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
