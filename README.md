@@ -1,8 +1,4 @@
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&pause=1000&color=D227C8&center=true&vCenter=true&width=600&lines=👋+Hi!+Welcome+to+Haleymax's+GitHub;🚀+Full+Stack+Developer+Journey;💡+Open+Source+Enthusiast" alt="Typing SVG" />
-</div>
-
----
+# 👋 Hello, I'm Haleymax!
 
 ## 👨‍💻 About Me
 
